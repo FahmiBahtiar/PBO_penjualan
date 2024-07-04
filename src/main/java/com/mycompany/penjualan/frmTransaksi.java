@@ -179,7 +179,7 @@ public class frmTransaksi extends javax.swing.JFrame {
     }
 
 //method set model tabel
-    public void inisialisasi_tabel() {
+        public void inisialisasi_tabel() {
         tblJual.setModel(tableModel);
     }
 
@@ -197,6 +197,7 @@ public class frmTransaksi extends javax.swing.JFrame {
         txtHarga.setText("");
         txtJml.setText("");
         txtTot.setText("");
+        
     }
 
 //method buat nomor jual otomatis
@@ -835,18 +836,23 @@ public class frmTransaksi extends javax.swing.JFrame {
 
     private void cmdHapusItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdHapusItemActionPerformed
         // TODO add your handling code here:
-        try {
-            int row = tblJual.getSelectedRow(); // Mendapatkan baris yang dipilih
+       try {
+        int row = tblJual.getSelectedRow(); 
 
-            if (row != -1) { // Memastikan ada baris yang dipilih
-                tableModel.removeRow(row); // Menghapus baris dari tableModel
-                inisialisasi_tabel(); // Memperbarui tampilan tabel
-            } else {
-                JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus");
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
+        if (row != -1) { 
+            int totalColumnIndex = tblJual.getColumnModel().getColumnIndex("Total");
+
+            double xtotItem = Double.parseDouble(tblJual.getValueAt(row, totalColumnIndex).toString());
+            total = total - xtotItem;
+            txtTotal.setText(Double.toString(total));
+            tableModel.removeRow(row);
+            inisialisasi_tabel();
+        } else {
+            JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus");
         }
+    } catch (Exception e) {
+        System.out.println("Error: " + e);
+    }
     }//GEN-LAST:event_cmdHapusItemActionPerformed
 
     private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
